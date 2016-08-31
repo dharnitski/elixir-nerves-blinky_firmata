@@ -8,7 +8,7 @@ defmodule BlinkyFirmata do
 
     # Define workers and child supervisors to be supervised
     children = [
-      worker(BlinkyFirmata.Protocol, ["ttyS0"]),
+      worker(BlinkyFirmata.Protocol, ["ttyS0"])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -18,15 +18,24 @@ defmodule BlinkyFirmata.Protocol do
   def handle_info({:firmata, {:pin_map, _pin_map}}, s) do
     IO.puts "Set Pin Map"
     Board.set_pin_mode(s.board, 13, @output)
-    send(self, {:blink, 1})
+
+    #Ale
+    :os.cmd '/usr/bin/pinmux set ephy gpio'
+    {:ok, pid} = Gpio.start_link(43, :output)
+
+    send(self, {:blink, 1, pid})
     {:noreply, s}
   end
 
-  def handle_info({:blink, state}, s) do
+  def handle_info({:blink, state, pid}, s) do
     IO.puts "Blink"
     Board.digital_write(s.board, 13, state)
     state = if state == 1, do: 0, else: 1
-    Process.send_after(self, {:blink, state}, 1000)
+
+    #Ale
+    Gpio.write(pid, state)
+
+    Process.send_after(self, {:blink, state, pid}, 1000)
     {:noreply, s}
   end
 

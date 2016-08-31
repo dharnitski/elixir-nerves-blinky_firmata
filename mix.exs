@@ -21,12 +21,13 @@ defmodule BlinkyFirmata.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {BlinkyFirmata, []},
-     applications: [:logger, :firmata]]
+     applications: [:logger, :firmata, :elixir_ale]]
   end
 
   def deps do
     [{:nerves, "~> 0.3.0"},
-     {:firmata, github: "mobileoverlord/firmata"}]
+     {:firmata, github: "mobileoverlord/firmata"},
+     {:elixir_ale, "~> 0.5.6"}]
   end
 
   def system(target) do
